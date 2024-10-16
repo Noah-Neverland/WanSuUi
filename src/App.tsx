@@ -1,5 +1,5 @@
-import {ConfigProvider} from './components/message/ConfigProvider';
-import {useMessage} from './components/message/hooks/useMessage';
+import {ConfigProvider} from './components/Message/ConfigProvider';
+import {useMessage} from './components/Message/hooks/useMessage';
 
 function Aaa() {
   const message = useMessage();

@@ -1,6 +1,6 @@
-import {MessageProps, Position, MessageRef} from './message';
-import {useMessage} from './message/hooks/useMessage';
-import {ConfigProvider} from './message/ConfigProvider';
+import {MessageProps, Position, MessageRef} from './Message';
+import {useMessage} from './Message/hooks/useMessage';
+import {ConfigProvider} from './Message/ConfigProvider';
 
 export {ConfigProvider, useMessage};
 

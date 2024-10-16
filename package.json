@@ -1,20 +1,33 @@
 {
   "name": "wan-su",
-  "version": "1.0.1",
-  "type": "module",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "version": "1.0.2",
+  "description": "An enterprise-class UI design language and React components implementation",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
   "files": [
+    "lib",
+    "es",
     "dist",
     "package.json",
     "README.md"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "gulp -f ./scripts/gulpfile.js compile",
+    "build:esbuild": "npm run compile:esbuild",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tscCompile:esm": "tsc -p ./scripts/tsconfig.build.json --module ESnext --outDir es",
+    "tscCompile:cjs": "tsc -p ./scripts/tsconfig.build.json --module commonjs --outDir cjs",
+    "esbuild:esm": "esbuild ./src/components/index.tsx --bundle --outfile=es/index.js --format=esm",
+    "esbuild:cjs": "esbuild ./src/components/index.tsx --bundle --outfile=cjs/index.js --format=cjs",
+    "dist": "",
+    "clean": "rimraf dist es cjs",
+    "compile": "npm run clean && npm run tscCompile:esm && npm run tscCompile:cjs",
+    "compile:esbuild": "npm run clean && npm run esbuild:esm && npm run esbuild:cjs",
+    "test": "node ./scripts/build.js"
   },
   "peerDependencies": {
     "react": "^18.3.1",
@@ -27,16 +40,30 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@types/node": "^22.7.5",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@types/react-transition-group": "^4.4.11",
     "@vitejs/plugin-react": "^4.3.2",
+    "del": "^6.0.0",
+    "esbuild": "^0.24.0",
+    "esbuild-plugin-sass": "^1.0.1",
     "eslint": "^9.11.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.12",
+    "glob": "^11.0.0",
     "globals": "^15.9.0",
+    "gulp": "^5.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-typescript": "6.0.0-alpha.1",
+    "merge2": "^1.4.1",
+    "rimraf": "^6.0.1",
+    "ts-loader": "^9.5.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.7.0",
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
   }
 }

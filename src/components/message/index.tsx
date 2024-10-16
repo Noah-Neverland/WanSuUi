@@ -1,4 +1,4 @@
-import {CSSProperties, FC, ReactNode, useMemo, forwardRef} from 'react';
+import React, {CSSProperties, FC, ReactNode, useMemo, forwardRef} from 'react';
 import {createPortal} from 'react-dom';
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
 import useStore from './hooks/useStore';
