@@ -1,9 +1,8 @@
-import {ConfigProvider} from './components/Message/ConfigProvider';
-import {useMessage} from './components/Message/hooks/useMessage';
+import {ConfigProvider} from './packages/Message/ConfigProvider';
+import {useMessage} from './packages/Message/hooks/useMessage';
 
 function Aaa() {
   const message = useMessage();
-  console.log('message===', message);
   return (
     // <button
     //   onClick={() => {

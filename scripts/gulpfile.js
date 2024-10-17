@@ -6,7 +6,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const del = require('del');
 const tsConfig = require('./tsconfig.build.json');
 
-const ROOT_DIR = path.resolve(__dirname, '..', 'src/components');
+const ROOT_DIR = path.resolve(__dirname, '..', 'src/packages');
 
 function compileTS({isESM}) {
   const tsStream = gulp.src(`${ROOT_DIR}/**/*.tsx`).pipe(
