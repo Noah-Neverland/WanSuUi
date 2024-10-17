@@ -9,7 +9,8 @@ const tsConfig = require('./tsconfig.build.json');
 const ROOT_DIR = path.resolve(__dirname, '..', 'src/packages');
 
 function compileTS({isESM}) {
-  const tsStream = gulp.src(`${ROOT_DIR}/**/*.tsx`).pipe(
+  const targetDir = isESM ? 'dist/es' : 'dist/cjs';
+  const tsStream = gulp.src(`${ROOT_DIR}/**/*.{tsx,ts}`).pipe(
     gulpTS({
       ...tsConfig.compilerOptions,
       declaration: isESM,
@@ -17,9 +18,7 @@ function compileTS({isESM}) {
     })
   );
 
-  return tsStream.js.pipe(
-    gulp.dest(path.resolve(__dirname, '..', isESM ? 'es' : 'lib'))
-  );
+  return tsStream.js.pipe(gulp.dest(path.resolve(__dirname, '..', targetDir)));
 }
 
 gulp.task('buildStyles', function buildStyles() {
@@ -27,19 +26,19 @@ gulp.task('buildStyles', function buildStyles() {
     .src(`${ROOT_DIR}/**/*.scss`)
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer())
-    .pipe(gulp.dest(path.resolve(__dirname, '..', 'es')))
-    .pipe(gulp.dest(path.resolve(__dirname, '..', 'lib')));
+    .pipe(gulp.dest(path.resolve(__dirname, '..', 'dist/es')))
+    .pipe(gulp.dest(path.resolve(__dirname, '..', 'dist/cjs')));
 });
 
 gulp.task('buildDts', function buildDts() {
-  const tsStream = gulp.src(`${ROOT_DIR}/**/*.tsx`).pipe(
+  const tsStream = gulp.src(`${ROOT_DIR}/**/*.{tsx,ts}`).pipe(
     gulpTS({
       ...tsConfig.compilerOptions,
       isolatedModules: false,
     })
   );
 
-  return tsStream.dts.pipe(gulp.dest(path.resolve(__dirname, '..', 'es')));
+  return tsStream.dts.pipe(gulp.dest(path.resolve(__dirname, '..', 'dist/es')));
 });
 
 gulp.task('compileTSXForESM', function compileTSXForESM() {
@@ -51,10 +50,7 @@ gulp.task('compileTSXForCJS', function compileTSXForESM() {
 });
 
 gulp.task('clean', function clean() {
-  return del(
-    [path.resolve(__dirname, '..', 'es'), path.resolve(__dirname, '..', 'lib')],
-    {force: true}
-  );
+  return del([path.resolve(__dirname, '..', 'dist')], {force: true});
 });
 
 gulp.task(

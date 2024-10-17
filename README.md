@@ -12,7 +12,7 @@ npm install --save wan-su@latest
 
 ```javascript
 import {ConfigProvider, useMessage} from 'wan-su';
-import 'wan-su/dist/esm/message/index.css';
+import 'wan-su/dist/es/Message/index.css';
 
 function Aaa() {
   const message = useMessage();

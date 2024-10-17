@@ -1,17 +1,14 @@
 {
   "name": "wan-su",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An enterprise-class UI design language and React components implementation",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "types": "dist/es/index.d.ts",
+  "unpkg": "dist/umd/wan-su.js",
   "files": [
-    "lib",
-    "es",
-    "dist",
-    "package.json",
-    "README.md"
+    "dist"
   ],
   "scripts": {
     "dev": "vite",
@@ -23,7 +20,6 @@
     "tscCompile:cjs": "tsc -p ./scripts/tsconfig.build.json --module commonjs --outDir cjs",
     "esbuild:esm": "esbuild ./src/packages/index.tsx --bundle --outfile=es/index.js --format=esm",
     "esbuild:cjs": "esbuild ./src/packages/index.tsx --bundle --outfile=cjs/index.js --format=cjs",
-    "dist": "",
     "clean": "rimraf dist es cjs",
     "compile": "npm run clean && npm run tscCompile:esm && npm run tscCompile:cjs",
     "compile:esbuild": "npm run clean && npm run esbuild:esm && npm run esbuild:cjs",
