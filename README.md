@@ -11,7 +11,7 @@ npm install --save wan-su@latest
 ### Message
 
 ```javascript
-import {ConfigProvider, useMessage} from 'guang-components';
+import {ConfigProvider, useMessage} from 'wan-su';
 import 'wan-su/dist/esm/message/index.css';
 
 function Aaa() {
