@@ -2,6 +2,7 @@ const path = require('path');
 const gulp = require('gulp');
 const gulpTS = require('gulp-typescript');
 const sass = require('gulp-sass')(require('sass'));
+const autoprefixer = require('gulp-autoprefixer');
 const merge = require('merge2');
 const del = require('del');
 const tsConfig = require('./tsconfig.build.json');
@@ -34,13 +35,14 @@ function compileTS({isESM}) {
   }
 }
 
-function buildStyles(isESM) {
-  const targetDir = isESM ? 'es' : 'lib';
+gulp.task('buildStyles', function buildStyles() {
   return gulp
     .src(`${ROOT_DIR}/**/*.scss`)
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(gulp.dest(path.resolve(__dirname, '..', targetDir)));
-}
+    .pipe(autoprefixer())
+    .pipe(gulp.dest(path.resolve(__dirname, '..', 'es')))
+    .pipe(gulp.dest(path.resolve(__dirname, '..', 'lib')));
+});
 
 gulp.task('compileTSXForESM', function compileTSXForESM() {
   return compileTS({isESM: true});
@@ -48,14 +50,6 @@ gulp.task('compileTSXForESM', function compileTSXForESM() {
 
 gulp.task('compileTSXForCJS', function compileTSXForESM() {
   return compileTS({isESM: false});
-});
-
-gulp.task('moveScssForESM', function moveScssForESM() {
-  return buildStyles(true);
-});
-
-gulp.task('moveScssForCJS', function moveScssForCJS() {
-  return buildStyles(false);
 });
 
 gulp.task('clean', function clean() {
@@ -67,6 +61,5 @@ gulp.task('clean', function clean() {
 
 exports.compile = gulp.series([
   'clean',
-  gulp.parallel('compileTSXForESM', 'compileTSXForCJS'),
-  gulp.parallel('moveScssForESM', 'moveScssForCJS'),
+  gulp.parallel('compileTSXForESM', 'compileTSXForCJS', 'buildStyles'),
 ]);
